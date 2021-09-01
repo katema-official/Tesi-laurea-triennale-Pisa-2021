@@ -1,0 +1,184 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{unipitesi}[2009/09/12  Redefines maketitle for University of Pisa Thesis,%
+and sets a binding offset of 1cm; original packager uniudtesi written by Gianluca Gorni,%
+ modified by Luigi Amedeo Bianchi and Leonardo Robol]
+\RequirePackage{ifthen}
+\RequirePackage{ifxetex}
+\RequirePackage{graphicx}
+% Check if we are using xelatex. If that is the case, use xelatex commands
+% to set font, otherwise use equivalent latex package. 
+% We suppose to use libertine font - more advanced font selection method
+% will be in future releases. 
+\ifxetex
+	\RequirePackage{fontspec}
+	\setmainfont[Mapping=tex-text]{Linux Libertine O}
+	\setsansfont[Mapping=tex-text]{Linux Libertine O}
+	\setromanfont[Mapping=tex-text]{Linux Libertine O}
+ \else
+ 	%\RequirePackage{libertine}
+ 	\fi
+
+
+% \RequirePackage{hyperref}  %% includere questa riga per creare un ipertesto, ma allora includere anche tutte le righe seguenti ``hypersetup''
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Per allontanare la parte stampata %
+% dal margine della rilegatura:     %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \RequirePackage[bindingoffset=1cm]{geometry}
+
+
+%\hypersetup{pdfpagelayout=SinglePage,
+%pdfpagemode=UseOutlines,
+%bookmarksopen,
+%bookmarksopenlevel=2,
+%pdftitle=Tesi di Laurea,
+%pdfauthor=Tesista,
+%pdfsubject=Tesi di Laurea,
+%pdfkeywords=tesi laurea LaTeX}
+
+\newcommand{\@dipartimento}{?}
+\newcommand{\@corsodilaurea}{?}
+\newcommand{\@corsodilaureatriennale}{?}
+\newcommand{\@corsodilaureamagistrale}{?}
+\newcommand{\@triennaleOmagistrale}{?}
+\newcommand{\@titolo}{Senza Titolo}
+\newcommand{\@annoaccademico}{?}
+\newcommand{\@relatore}{?}
+\newcommand{\@correlatore}{?}
+\newcommand{\@controrelatore}{?}
+\newcommand{\@laureando}{?}
+\newcommand{\@laureanda}{?}
+\newcommand{\@autore}{}
+\newcommand{\@laureandoOlaureanda}{?}
+\newcommand{\@dedica}{?}
+\newcommand{\@autorededica}{?}
+
+\newcommand{\dipartimento}[1]{%
+  \renewcommand{\@dipartimento}{#1}}
+\newcommand{\corsodilaurea}[1]{%
+  \renewcommand{\@corsodilaurea}{#1}%
+  \renewcommand{\@triennaleOmagistrale}{\ignorespaces}}
+\newcommand{\corsodilaureatriennale}[1]{%
+  \renewcommand{\@corsodilaurea}{#1}%
+  \renewcommand{\@triennaleOmagistrale}{Triennale }}
+\newcommand{\corsodilaureamagistrale}[1]{%
+  \renewcommand{\@corsodilaurea}{#1}%
+  \renewcommand{\@triennaleOmagistrale}{Magistrale }}
+\newcommand{\titolo}[1]{%
+  \renewcommand{\@titolo}{\uppercase{#1}}}
+\newcommand{\annoaccademico}[1]{%
+  \renewcommand{\@annoaccademico}{#1}}
+\newcommand{\relatore}[2][Prof.]{%
+  \renewcommand{\@relatore}{#1 \uppercase{#2}}}
+  
+\newcommand{\relatoretwo}[2][Prof.]{%
+  \renewcommand{\@relatoretwo}{#1 \uppercase{#2}}}
+  
+\newcommand{\relatorethree}[2][Dott.]{%
+  \renewcommand{\@relatorethree}{#1 \uppercase{#2}}}
+  
+\newcommand{\correlatore}[2][Prof.]{%
+  \renewcommand{\@correlatore}{#1 \uppercase{#2}}}
+\newcommand{\controrelatore}[2][Dott.]{%
+  \renewcommand{\@controrelatore}{#1 \uppercase{#2}}}
+\newcommand{\laureando}[1]{%
+  \renewcommand{\@laureando}{\uppercase{#1}}%
+  \renewcommand{\@autore}{\uppercase{#1}}%
+%  \renewcommand{\@laureandoOlaureanda}{Laureando}}
+  \renewcommand{\@laureandoOlaureanda}{Candidato}}
+\newcommand{\laureanda}[1]{%
+  \renewcommand{\@laureanda}{\uppercase{#1}}%
+  \renewcommand{\@autore}{\uppercase{#1}}%
+  \renewcommand{\@laureandoOlaureanda}{Laureanda}}
+\newcommand{\dedica}[1]{%
+  \renewcommand{\@dedica}{#1}}
+\newcommand{\autorededica}[1]{%
+  \renewcommand{\@autorededica}{#1}}
+\newcommand{\data}[1]{\date{#1}}
+
+\newcommand{\clearemptydoublepage}{\newpage{\pagestyle{empty}%
+  \cleardoublepage}}
+
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %                                   %
+    %  Formattazione dell'intestazione  %
+    %  della tesi                       %
+    %                                   %
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\renewcommand{\maketitle}{\begin{titlepage}
+  \begin{sffamily}
+  \begin{large}
+  \begin{center}
+    \vbox to 100pt{%
+    \includegraphics[width=3cm]{cherubino}%
+    \vfil}
+  \end{center}
+  \begin{center}
+  \begin{Large}
+    \uppercase{Universit\`a di Pisa}
+    \end{Large}\\
+  \rule{9cm}{.4pt}\\
+  \smallskip
+  Dipartimento di \@dipartimento\\
+  \medskip
+  Corso di Laurea \@triennaleOmagistrale in
+     \@corsodilaurea\\
+  \bigskip\vfill
+  \begin{Large} Tesi di Laurea\end{Large}\\
+  \bigskip
+  \bigskip
+  {\vfil
+    \begin{Huge}
+      {\renewcommand{\\}{\cr}
+     \halign{\hbox to\textwidth{\strut\hfil##\hfil}\cr
+     \@titolo\cr}}
+    \end{Huge}}
+  \bigskip\vfill
+  \begin{tabular*}{\textwidth}{@{}l@{\extracolsep{\fill}}l@{}}
+    Relatori:&\@laureandoOlaureanda:\\      %ho cambiato "relatore" con "relatori"
+     \vtop{\halign{\strut\hfil##\hfil\cr
+       \@relatore\cr}}&%
+     \vtop{\halign{\strut\hfil##\hfil\cr
+       \@autore\cr}}\\
+       
+     \vtop{\halign{\strut\hfil##\hfil\cr
+       \@relatoretwo\cr}}\\
+       
+     \vtop{\halign{\strut\hfil##\hfil\cr
+       \@relatorethree\cr}}\\
+  \end{tabular*}\end{center}
+  \ifthenelse{\equal{\@correlatore}{?}}{}%
+    {\noindent Correlatore:\newline
+      \vtop{\halign{\strut\hfil##\hfil\cr
+       \@correlatore\cr}}}
+   \ifthenelse{\equal{\@controrelatore}{?}}{}%
+    {\noindent Controrelatore:\newline
+      \vtop{\halign{\strut\hfil##\hfil\cr
+       \@controrelatore\cr}}}
+  \begin{center}
+  \vfill
+  \rule{9cm}{.4pt}\\
+  \medskip
+  \uppercase{Anno Accademico \@annoaccademico}\\
+  \end{center}
+  \end{large}
+\end{sffamily}
+\clearemptydoublepage
+\ifthenelse{\equal{\@dedica}{?}}{}{%
+\pagestyle{empty}
+  \null\vfil
+  \begin{flushright}
+   \begin{minipage}[r]{9cm}
+    \textit{\@dedica}
+    \begin{flushright}
+	\@autorededica
+    \end{flushright}
+   \end{minipage}
+  \end{flushright}
+  \vfil\vfil\clearemptydoublepage}
+\end{titlepage}}
+
+
+\endinput
